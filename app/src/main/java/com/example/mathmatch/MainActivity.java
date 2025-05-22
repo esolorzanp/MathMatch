@@ -3,6 +3,7 @@ package com.example.mathmatch;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] imagenesPorCuadro;
     private int contadorToques = 0, primeraImagenDestapada;
     private String etiquetaTocadaAnterior = "";
+    private String etiquetaTocada;
 
     // Variables para controlar los puntos para el jugador si acierta o falla en el intento
     private int puntosAcierto = 10;
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClicEnCuadro(View v) {
-        String etiquetaTocada = "";
+        etiquetaTocada = "";
         int idImagen = imagenesPorCuadro[2]; //[(idCuadro - 1)];
         boolean coincidio = false;
         ImageView cuadroTocado;
@@ -90,51 +92,60 @@ public class MainActivity extends AppCompatActivity {
         cuadroTocado = (ImageView) v;
         etiquetaTocada = cuadroTocado.getTag().toString();
 
-        // Se destapa la imágen respectiva
-        cuadroTocado.setImageResource(imagenesPorCuadro[Integer.parseInt(etiquetaTocada)]);
+        // No permite que una etiqueta seleccionada se pueda seleccionar nuevamente
+        if (!etiquetaTocada.equals(etiquetaTocadaAnterior)) {
+            // Se destapa la imágen respectiva
+            cuadroTocado.setImageResource(imagenesPorCuadro[Integer.parseInt(etiquetaTocada)]);
 
-        // Se incrementa el contador de toques (¿cuántos cuadros se han destapado?)
-        contadorToques++;
+            // Se incrementa el contador de toques (¿cuántos cuadros se han destapado?)
+            contadorToques++;
 
-        System.out.println("Contador de Toques->" + contadorToques);
+            System.out.println("Contador de Toques->" + contadorToques);
 
-        if (contadorToques == 1) {
-            etiquetaTocadaAnterior = etiquetaTocada;
-            cuadroTocadoAnterior = (ImageView) v;
-        }
-        else if (contadorToques == 2) {
-            if (imagenesPorCuadro[Integer.parseInt(etiquetaTocada)] == imagenesPorCuadro[Integer.parseInt(etiquetaTocadaAnterior)]) {
-                // El usuario si encontró la pareja
+            if (contadorToques == 1) {
+                etiquetaTocadaAnterior = etiquetaTocada;
+                cuadroTocadoAnterior = (ImageView) v;
+            } else if (contadorToques == 2) {
+                if (imagenesPorCuadro[Integer.parseInt(etiquetaTocada)] == imagenesPorCuadro[Integer.parseInt(etiquetaTocadaAnterior)]) {
+                    // El usuario si encontró la pareja
 
-                // Se actualiza el puntaje
-                puntajeJuego += puntosAcierto;
+                    // Se actualiza el puntaje
+                    puntajeJuego += puntosAcierto;
 
-                // Se reproduce el audio
-                gestorSonido.play(pistaAudio, 1, 1, 1, 0, 0);
+                    // Se reproduce el audio
+                    gestorSonido.play(pistaAudio, 1, 1, 1, 0, 0);
 
-                Toast.makeText(getApplicationContext(), "Resultado-> MATCH, Pareja Completada!" + "\nPuntaje->" + puntajeJuego, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Resultado-> MATCH, Pareja Completada!" + "\nPuntaje->" + puntajeJuego, Toast.LENGTH_LONG).show();
+                } else {
+                    // El usuario se equivocó en este intento
+
+                    // Se actualiza el puntaje
+                    puntajeJuego += puntosEquivocacion;
+
+                    // Se reproduce el audio
+                    gestorSonido.play(pistaAudio2, 1, 1, 1, 0, 0);
+
+                    cuadroTocado.setImageResource(imagenesPorCuadro[Integer.parseInt(etiquetaTocada)]);
+                    Toast.makeText(getApplicationContext(), "Resultado-> INCORRECTO, Pareja Fallida!" + "\nPuntaje->" + puntajeJuego, Toast.LENGTH_LONG).show();
+                    etiquetaTocadaAnterior = "";
+
+                    // Esperar 2 segundos (2000 milisegundos) y luego tapar las imagenes seleccionadas
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Se vuelven a ocultar  las imágenes
+                            cuadroTocado.setImageResource(R.drawable.tapado);
+                            cuadroTocadoAnterior.setImageResource(R.drawable.tapado);
+                        }
+                    }, 2000);
+                }
+
+                // Se actualiza el puntaje en la pantalla
+                txvPuntaje.setText(String.valueOf(puntajeJuego));
+
+                // Se reinicia el contador de toques
+                contadorToques = 0;
             }
-            else {
-                // El usuario se equivocó en este intento
-
-                // Se actualiza el puntaje
-                puntajeJuego += puntosEquivocacion;
-
-                // Se reproduce el audio
-                gestorSonido.play(pistaAudio2, 1, 1, 1, 0, 0);
-
-                Toast.makeText(getApplicationContext(), "Resultado-> INCORRECTO, Pareja Fallida!" + "\nPuntaje->" + puntajeJuego, Toast.LENGTH_LONG).show();
-
-                // Se vuelven a ocultar  las imágenes
-                cuadroTocado.setImageResource(R.drawable.tapado);
-                cuadroTocadoAnterior.setImageResource(R.drawable.tapado);
-            }
-
-            // Se actualiza el puntaje en la pantalla
-            txvPuntaje.setText(String.valueOf(puntajeJuego));
-
-            // Se reinicia el contador de toques
-            contadorToques = 0;
         }
     }
 }

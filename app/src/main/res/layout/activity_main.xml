@@ -15,6 +15,7 @@
         android:text="Encuentre las parejas"
         android:textSize="@dimen/mm_title"
         android:textStyle="bold"
+        android:textColor="@color/mm_primary"
         app:layout_constraintBottom_toTopOf="@+id/txvPuntaje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
