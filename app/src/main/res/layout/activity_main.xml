@@ -2,18 +2,113 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/txtPuntaje"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:text="Encuentre las parejas"
+        android:textColor="@color/mm_primary"
+        android:textSize="@dimen/mm_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txvPuntaje"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="33dp"
+        android:text="Puntaje:"
+        android:textColor="@color/mm_primary"
+        android:textSize="@dimen/mm_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imv4"
+        app:layout_constraintStart_toEndOf="@+id/imv1" />
+
+    <TextView
+        android:id="@+id/txvPuntaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
+        android:text=""
+        android:textSize="@dimen/mm_text"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@+id/imv4" />
+
+    <ImageView
+        android:id="@+id/imv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="33dp"
+        android:onClick="ClicEnCuadro"
+        android:tag="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/tapado" />
+
+    <ImageView
+        android:id="@+id/imv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ClicEnCuadro"
+        android:tag="1"
+        app:layout_constraintStart_toStartOf="@+id/imv1"
+        app:layout_constraintTop_toTopOf="@+id/imv5"
+        app:srcCompat="@drawable/tapado" />
+
+    <ImageView
+        android:id="@+id/imv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ClicEnCuadro"
+        android:tag="2"
+        app:layout_constraintStart_toStartOf="@+id/imv2"
+        app:layout_constraintTop_toTopOf="@+id/imv6"
+        app:srcCompat="@drawable/tapado" />
+
+    <ImageView
+        android:id="@+id/imv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="235dp"
+        android:onClick="ClicEnCuadro"
+        android:tag="3"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tapado" />
+
+    <ImageView
+        android:id="@+id/imv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:onClick="ClicEnCuadro"
+        android:tag="4"
+        app:layout_constraintStart_toStartOf="@+id/imv4"
+        app:layout_constraintTop_toBottomOf="@+id/imv4"
+        app:srcCompat="@drawable/tapado" />
+
+    <ImageView
+        android:id="@+id/imv6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:onClick="ClicEnCuadro"
+        android:tag="5"
+        app:layout_constraintStart_toStartOf="@+id/imv5"
+        app:layout_constraintTop_toBottomOf="@+id/imv5"
+        app:srcCompat="@drawable/tapado" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

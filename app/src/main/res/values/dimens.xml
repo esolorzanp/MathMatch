@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mm_title">28sp</dimen>
+    <dimen name="mm_text">20sp</dimen>
+    <dimen name="mm_logosplash_text">14sp</dimen>
+</resources>
