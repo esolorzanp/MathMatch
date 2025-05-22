@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void ClicEnCuadro(View v) {
         etiquetaTocada = "";
-        int idImagen = imagenesPorCuadro[2]; //[(idCuadro - 1)];
+//        int idImagen = imagenesPorCuadro[2]; //[(idCuadro - 1)];
         boolean coincidio = false;
         ImageView cuadroTocado;
 

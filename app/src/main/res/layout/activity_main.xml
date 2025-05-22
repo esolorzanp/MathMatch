@@ -11,36 +11,50 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="35dp"
         android:text="Encuentre las parejas"
+        android:textColor="@color/mm_primary"
         android:textSize="@dimen/mm_title"
         android:textStyle="bold"
-        android:textColor="@color/mm_primary"
         app:layout_constraintBottom_toTopOf="@+id/txvPuntaje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="33dp"
+        android:text="Puntaje:"
+        android:textColor="@color/mm_primary"
+        android:textSize="@dimen/mm_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imv4"
+        app:layout_constraintStart_toEndOf="@+id/imv1" />
 
     <TextView
         android:id="@+id/txvPuntaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="23dp"
-        android:layout_marginBottom="33dp"
         android:text=""
         android:textSize="@dimen/mm_text"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imv4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/imv4" />
 
     <ImageView
         android:id="@+id/imv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="33dp"
         android:onClick="ClicEnCuadro"
         android:tag="0"
-        app:layout_constraintEnd_toStartOf="@+id/imv4"
-        app:layout_constraintTop_toTopOf="@+id/imv4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@drawable/tapado" />
 
     <ImageView
@@ -67,11 +81,11 @@
         android:id="@+id/imv4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="235dp"
-        android:layout_marginEnd="70dp"
         android:onClick="ClicEnCuadro"
         android:tag="3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/tapado" />
 
@@ -96,6 +110,5 @@
         app:layout_constraintStart_toStartOf="@+id/imv5"
         app:layout_constraintTop_toBottomOf="@+id/imv5"
         app:srcCompat="@drawable/tapado" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
