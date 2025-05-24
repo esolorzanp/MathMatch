@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +16,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     private ImageView cuadro1, cuadro2, cuadro3, cuadro4, cuadro5, cuadro6, cuadroTocadoAnterior;
     private TextView txvPuntaje;
     private int[] imagenesPorCuadro;
+    private HashMap<Integer, Integer> images;
     private int contadorToques = 0, primeraImagenDestapada;
     private String etiquetaTocadaAnterior = "";
     private String etiquetaTocada;
@@ -62,14 +66,12 @@ public class MainActivity extends AppCompatActivity {
         // Se inicializa el text view donde se muestra el puntaje
         txvPuntaje = findViewById(R.id.txvPuntaje);
 
-        // Se inicializan el nombre de las imágenes q mostrará cada cuadro
-        imagenesPorCuadro = new int[6];
-        imagenesPorCuadro[0] = R.drawable.i2;
-        imagenesPorCuadro[1] = R.drawable.i3;
-        imagenesPorCuadro[2] = R.drawable.i1;
-        imagenesPorCuadro[3] = R.drawable.i1;
-        imagenesPorCuadro[4] = R.drawable.i2;
-        imagenesPorCuadro[5] = R.drawable.i3;
+        images = new HashMap<Integer, Integer>();
+        images.put(R.drawable.i11, R.drawable.i21);
+        images.put(R.drawable.i12, R.drawable.i22);
+        images.put(R.drawable.i13, R.drawable.i23);
+
+        this.cargarImagenes();
 
         // Se inicializa el contador de toques (clics)
         contadorToques = 0;
@@ -81,6 +83,18 @@ public class MainActivity extends AppCompatActivity {
         // Se carga la pista de audio
         pistaAudio = gestorSonido.load(this, R.drawable.sonido_acierto, 1);
         pistaAudio2 = gestorSonido.load(this, R.drawable.sonido_error, 1);
+    }
+
+    // El siguiente método anulará el boton "Back" o "Regresar atrás" de Android, para esta Activity
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == event.KEYCODE_BACK) {
+            // El usuario presionó el botón "Ir atrás" de Android
+            Toast.makeText(this, "PROHIBIDO UTILIZAR BOTÓN ATRÁS, UTILICE BOTÓN REGRESAR", Toast.LENGTH_LONG).show();
+            // Se interrumpe el funcionamiento normal de esa tecla
+            return false;
+        }    // Se permite que siga la ejecución normal del flujo de la otra tecla presionada
+        return super.onKeyDown(keyCode, event);
     }
 
     public void ClicEnCuadro(View v) {
@@ -106,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 etiquetaTocadaAnterior = etiquetaTocada;
                 cuadroTocadoAnterior = (ImageView) v;
             } else if (contadorToques == 2) {
-                if (imagenesPorCuadro[Integer.parseInt(etiquetaTocada)] == imagenesPorCuadro[Integer.parseInt(etiquetaTocadaAnterior)]) {
+                if (imagenesEmparejadas(imagenesPorCuadro[Integer.parseInt(etiquetaTocada)], imagenesPorCuadro[Integer.parseInt(etiquetaTocadaAnterior)])) {
                     // El usuario si encontró la pareja
 
                     // Se actualiza el puntaje
@@ -147,5 +161,62 @@ public class MainActivity extends AppCompatActivity {
                 contadorToques = 0;
             }
         }
+    }
+
+    public void restart(View v) {
+        cuadro1.setImageResource(R.drawable.tapado);
+        cuadro2.setImageResource(R.drawable.tapado);
+        cuadro3.setImageResource(R.drawable.tapado);
+        cuadro4.setImageResource(R.drawable.tapado);
+        cuadro5.setImageResource(R.drawable.tapado);
+        cuadro6.setImageResource(R.drawable.tapado);
+        cargarImagenes();
+        etiquetaTocada = "";
+        etiquetaTocadaAnterior = "";
+        contadorToques = 0;
+        puntajeJuego = 0;
+        txvPuntaje.setText(String.valueOf(puntajeJuego));
+    }
+
+    private void cargarImagenes() {
+        // Se inicializan el nombre de las imágenes q mostrará cada cuadro
+        imagenesPorCuadro = new int[6];
+
+        // Inicializa array de imagenes por cuadro
+        for (int i = 0; i <= 5; i++)
+            imagenesPorCuadro[i] = -1;
+
+        // Recorre HashMap de imagenes emparejadas
+        for (int k : images.keySet()) {
+            int x = -1;
+            int y = -1;
+            // Selecciona un cuadro vacio de manera aleatoria
+            do {
+                x = getNumberRandom(0, 5);
+            } while (imagenesPorCuadro[x] != -1);
+            do {
+                y = getNumberRandom(0, 5);
+            } while (imagenesPorCuadro[y] != -1 || x == y);
+            // Asigna de manera aleatoria una imagen a cada cuadro seleccionado
+            if (getNumberRandom(0, 1) == 0) {
+                imagenesPorCuadro[x] = k;
+                imagenesPorCuadro[y] = images.get(k);
+            } else {
+                imagenesPorCuadro[y] = k;
+                imagenesPorCuadro[x] = images.get(k);
+            }
+        }
+    }
+
+    private boolean imagenesEmparejadas(int x, int y) {
+        for (int k : images.keySet())
+            if ((x == k && y == images.get(k))
+                    || (y == k && x == images.get(k)))
+                return true;
+        return false;
+    }
+
+    private int getNumberRandom(int min, int max) {
+        return (int) (Math.random() * (max - min + 1));
     }
 }

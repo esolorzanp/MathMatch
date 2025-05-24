@@ -111,4 +111,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imv5"
         app:srcCompat="@drawable/tapado" />
 
+    <Button
+        android:id="@+id/btnReiniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:onClick="restart"
+        android:text="Reiniciar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imv6" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
